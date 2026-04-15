@@ -18,11 +18,17 @@ btn.addEventListener("click", function (e) {
 	const backgroundGerado = gerarBackgroundFake(descricao);
 
 	// Mostrar preview
-	preview.style.display = "block";
-	preview.style.height = "200px";
-	preview.style.borderRadius = "12px";
-	preview.style.marginTop = "20px";
-	preview.style.background = backgroundGerado;
+preview.style.display = "block";
+preview.style.opacity = "0";
+
+setTimeout(() => {
+	preview.style.opacity = "1";
+}, 100);
+
+preview.style.height = "220px";
+preview.style.borderRadius = "16px";
+preview.style.marginTop = "20px";
+preview.style.background = backgroundGerado;
 
 	// Mostrar código
 	htmlCode.textContent = `<div class="background"></div>`;
