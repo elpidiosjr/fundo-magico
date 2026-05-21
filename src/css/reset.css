@@ -1,5 +1,79 @@
-* {
-	margin: 0; /* espaçamento externo */
-	padding: 0; /* espaçamento interno */
+/* RESET GLOBAL */
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
+}
+
+/* HTML */
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* BODY */
+
+body {
+	min-height: 100vh;
+
+	text-rendering: optimizeLegibility;
+
+	-webkit-font-smoothing: antialiased;
+
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* IMAGENS */
+
+img,
+picture {
+	max-width: 100%;
+	display: block;
+}
+
+/* FORMULÁRIOS */
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/* LISTAS */
+
+ul,
+ol {
+	list-style: none;
+}
+
+/* LINKS */
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* BOTÕES */
+
+button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+/* TEXTAREA */
+
+textarea {
+	resize: vertical;
+}
+
+/* TABELAS */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
