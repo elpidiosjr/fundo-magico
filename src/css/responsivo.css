@@ -1,18 +1,102 @@
 @media (max-width: 768px) {
-	.header h1 {
-		font-size: 32px;
+
+	body {
+		padding: 20px 16px;
 	}
 
-	.subtitle,
+	.header {
+		margin-bottom: 32px;
+	}
+
+	.header h1 {
+		font-size: 36px;
+		line-height: 1.2;
+	}
+
+	.subtitle {
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	.card {
+		padding: 20px;
+	}
+
 	.card-header {
+		font-size: 18px;
+		text-align: center;
+	}
+
+	.form-group textarea {
+		min-height: 140px;
+		font-size: 15px;
+	}
+
+	.btn-magic {
+		padding: 14px;
 		font-size: 16px;
+	}
+
+	.preview-card {
+		height: 180px;
+	}
+
+	.history-list {
+		justify-content: center;
+	}
+
+	.history-item {
+		width: 120px;
+		height: 80px;
 	}
 
 	.code-grid {
 		flex-direction: column;
+		gap: 16px;
 	}
 
 	.code-card {
+		width: 100%;
+		padding: 18px;
+	}
+
+	.code-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.code-block {
+		font-size: 13px;
+		overflow-x: auto;
+	}
+}
+
+@media (max-width: 480px) {
+
+	.header h1 {
+		font-size: 28px;
+	}
+
+	.subtitle {
+		font-size: 14px;
+	}
+
+	.card {
+		padding: 16px;
+	}
+
+	.preview-card {
+		height: 160px;
+	}
+
+	.history-item {
+		width: 100%;
+		height: 90px;
+	}
+
+	.copy-btn,
+	.btn-magic {
 		width: 100%;
 	}
 }
