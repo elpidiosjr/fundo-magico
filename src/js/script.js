@@ -4,6 +4,9 @@ const preview = document.getElementById("preview-section");
 const htmlCode = document.getElementById("html-code");
 const cssCode = document.getElementById("css-code");
 
+const TEMPO_LOADING = 600;
+const TEMPO_ANIMACAO = 100;
+
 const backgrounds = [
 	"linear-gradient(90deg, #ff7e5f, #feb47b)",
 	"linear-gradient(90deg, #6a11cb, #2575fc)",
@@ -16,30 +19,65 @@ let ultimoBackground = "";
 
 btn.addEventListener("click", gerarBackground);
 
-function gerarBackground(e) {
-	e.preventDefault();
+// ==========================
+// GERA BACKGROUND
+// ==========================
+
+async function gerarBackground(event) {
+	event.preventDefault();
 
 	const descricao = textarea.value.trim();
 
-	if (!descricao) {
-		alert("Digite uma descrição primeiro!");
-		textarea.focus();
+	if (!validarDescricao(descricao)) {
 		return;
 	}
 
-	btn.textContent = "Gerando...";
-	btn.disabled = true;
+	atualizarBotao(true);
 
-	setTimeout(() => {
+	try {
+		await esperar(TEMPO_LOADING);
+
 		const background = gerarBackgroundFake();
 
 		atualizarPreview(background);
 		mostrarCodigo(background);
 
-		btn.textContent = "Gerar Background";
-		btn.disabled = false;
-	}, 600);
+	} finally {
+		atualizarBotao(false);
+	}
 }
+
+// ==========================
+// VALIDAÇÃO
+// ==========================
+
+function validarDescricao(descricao) {
+	if (!descricao) {
+		alert("Digite uma descrição primeiro!");
+
+		textarea.focus();
+
+		return false;
+	}
+
+	return true;
+}
+
+// ==========================
+// BOTÃO
+// ==========================
+
+function atualizarBotao(carregando) {
+	btn.disabled = carregando;
+
+	btn.textContent = carregando
+		? "Gerando..."
+		: "Gerar Background";
+}
+
+// ==========================
+// PREVIEW
+// ==========================
 
 function atualizarPreview(background) {
 	preview.style.display = "block";
@@ -48,48 +86,84 @@ function atualizarPreview(background) {
 
 	setTimeout(() => {
 		preview.style.opacity = "1";
-	}, 100);
+	}, TEMPO_ANIMACAO);
 }
 
-function mostrarCodigo(background) {
-	htmlCode.textContent = `<div class="background"></div>`;
+// ==========================
+// CÓDIGOS
+// ==========================
 
-	cssCode.textContent = `.background {
+function mostrarCodigo(background) {
+	htmlCode.textContent =
+`<div class="background"></div>`;
+
+	cssCode.textContent =
+`.background {
 	width: 100%;
 	height: 100vh;
 	background: ${background};
 }`;
 }
 
+// ==========================
+// BACKGROUND MOCK
+// ==========================
+
 function gerarBackgroundFake() {
+
 	let background;
 
 	do {
 		background =
 			backgrounds[Math.floor(Math.random() * backgrounds.length)];
-	} while (background === ultimoBackground);
+	}
+	while (background === ultimoBackground);
 
 	ultimoBackground = background;
 
 	return background;
 }
 
-function copiarCodigo(tipo) {
-	const codigo =
-		tipo === "html"
-			? htmlCode.textContent
-			: cssCode.textContent;
+// ==========================
+// COPIAR CÓDIGO
+// ==========================
 
-	navigator.clipboard.writeText(codigo);
+async function copiarCodigo(tipo) {
 
-	const botoes = document.querySelectorAll(".copy-btn");
-	const botao = tipo === "html" ? botoes[0] : botoes[1];
+	try {
 
-	const textoOriginal = botao.textContent;
+		const codigo =
+			tipo === "html"
+				? htmlCode.textContent
+				: cssCode.textContent;
 
-	botao.textContent = "Copiado!";
+		await navigator.clipboard.writeText(codigo);
 
-	setTimeout(() => {
-		botao.textContent = textoOriginal;
-	}, 1500);
+		const botoes = document.querySelectorAll(".copy-btn");
+
+		const botao =
+			tipo === "html"
+				? botoes[0]
+				: botoes[1];
+
+		const textoOriginal = botao.textContent;
+
+		botao.textContent = "Copiado!";
+
+		setTimeout(() => {
+			botao.textContent = textoOriginal;
+		}, 1500);
+
+	} catch (erro) {
+		console.error("Erro ao copiar código:", erro);
+		alert("Não foi possível copiar o código.");
+	}
+}
+
+// ==========================
+// UTILITÁRIO
+// ==========================
+
+function esperar(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
